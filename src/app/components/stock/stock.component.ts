@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import Stock, { defaultStock } from '../../interfaces/stock';
 
 @Component({
   selector: 'app-stock',
@@ -6,9 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./stock.component.css'],
 })
 export class StockComponent implements OnInit {
-  @Input() stock: { name: string } = { name: '' };
+  @Input() stock: Stock = defaultStock;
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleRemoveClick(): void {
+    console.log('REMOVE');
+  }
 }
