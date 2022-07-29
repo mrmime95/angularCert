@@ -1,8 +1,7 @@
-import { map } from 'rxjs/operators';
 import { StockService } from './../../services/stock.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import SymbolLookup from 'src/app/interfaces/symbol-lookup';
+import Stock from 'src/app/interfaces/stock';
 
 @Component({
   selector: 'app-stock-home',
@@ -10,7 +9,8 @@ import SymbolLookup from 'src/app/interfaces/symbol-lookup';
   styleUrls: ['./stock-home.component.css'],
 })
 export class StockHomeComponent implements OnInit {
-  trackedStocks: SymbolLookup[] = [];
+  trackedStocks: Stock[] = [];
+  isAdding: boolean = false;
 
   stockFinderForm = new FormGroup({
     symbol: new FormControl(
@@ -30,14 +30,26 @@ export class StockHomeComponent implements OnInit {
   }
 
   trackStock(): void {
+    this.isAdding = true;
     this.stockService
       .getFirstStockBySymbol(this.stockFinderForm.value.symbol)
       .subscribe((stockToTrack) => {
-        this.trackedStocks.push(stockToTrack);
+        this.trackedStocks.push({
+          name: `${stockToTrack.description} (${stockToTrack.symbol})`,
+          todayChange: 0,
+          currentPrice: 0,
+          openingPrice: 0,
+          highPrice: 0,
+          symbol: stockToTrack.symbol,
+        });
         localStorage.setItem(
           'trackedStocks',
           JSON.stringify(this.trackedStocks)
         );
+        this.isAdding = false;
+        this.stockFinderForm.patchValue({
+          symbol: '',
+        });
       });
   }
 

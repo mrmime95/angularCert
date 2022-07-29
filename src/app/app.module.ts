@@ -7,16 +7,10 @@ import { AppComponent } from './app.component';
 import { StockHomeComponent } from './components/stock-home/stock-home.component';
 import { StockComponent } from './components/stock/stock.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IndicatorComponent } from './components/indicator/indicator.component';
-import { GlobalModule } from './global/global.module';
+import { GlobalModule } from 'src/app/modules/global/global.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    StockHomeComponent,
-    StockComponent,
-    IndicatorComponent,
-  ],
+  declarations: [AppComponent, StockHomeComponent, StockComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

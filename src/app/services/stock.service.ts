@@ -38,9 +38,18 @@ export class StockService {
   }
 
   getQuoteOfSymbol(symbol: string) {
-    return this.http.get<QuoteResponse>(
-      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu4f8kn48v6uehqi3cqg`
-    );
+    return this.http
+      .get<QuoteResponse>(
+        `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu4f8kn48v6uehqi3cqg`
+      )
+      .pipe(
+        map((quote) => ({
+          todayChange: quote.dp,
+          currentPrice: quote.c,
+          openingPrice: quote.o,
+          highPrice: quote.h,
+        }))
+      );
   }
 
   getLastYearChangesOfSymbol(symbol: string) {

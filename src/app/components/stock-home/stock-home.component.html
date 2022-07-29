@@ -1,4 +1,3 @@
-<h1>Stock Tracker</h1>
 <div class="container">
     <form [formGroup]="stockFinderForm" (ngSubmit)="trackStock()">
         <div>
@@ -7,10 +6,13 @@
         <input id="symbol" type="text" formControlName="symbol"/>
         
         <input type="submit"  value="Track Stock" [disabled]="stockFinderForm.invalid || stockFinderForm.pending"/>
+        <div   *ngIf='stockFinderForm.pending || isAdding'>
+            Working on it...
+        </div>
         <p *ngIf="stockFinderForm.get('symbol')?.errors !== null">
             {{stockFinderForm.get("symbol")?.errors | json}}
         </p>
     </form>
 </div>
 
-<app-stock *ngFor="let trackedStock of trackedStocks; index as i" [symbolLookup]="trackedStock" (remove)="removeStock(i)"></app-stock>
+<app-stock *ngFor="let trackedStock of trackedStocks; index as i" [stock]="trackedStock" (remove)="removeStock(i)"></app-stock>

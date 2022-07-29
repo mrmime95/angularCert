@@ -1,8 +1,6 @@
 import { StockService } from './../../services/stock.service';
-import SymbolLookup from 'src/app/interfaces/symbol-lookup';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Stock from '../../interfaces/stock';
-import QuoteResponse from 'src/app/interfaces/quote-response';
 
 @Component({
   selector: 'app-stock',
@@ -10,7 +8,6 @@ import QuoteResponse from 'src/app/interfaces/quote-response';
   styleUrls: ['./stock.component.css'],
 })
 export class StockComponent implements OnInit {
-  @Input() symbolLookup!: SymbolLookup;
   @Input() stock!: Stock;
 
   @Output() remove = new EventEmitter();
@@ -18,30 +15,12 @@ export class StockComponent implements OnInit {
   constructor(private stockService: StockService) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit', this.symbolLookup);
-
-    this.stock = {
-      name: `${this.symbolLookup.description} (${this.symbolLookup.symbol})`,
-      todayChange: 0,
-      currentPrice: 0,
-      openingPrice: 0,
-      highPrice: 0,
-      symbol: this.symbolLookup.symbol,
-    };
-    this.stock.symbol = this.symbolLookup.symbol;
-
-    this.stockService
-      .getQuoteOfSymbol(this.symbolLookup.symbol)
-      .subscribe((quote: QuoteResponse) => {
-        this.stock = {
-          name: `${this.symbolLookup.description} (${this.symbolLookup.symbol})`,
-          todayChange: quote.dp,
-          currentPrice: quote.c,
-          openingPrice: quote.o,
-          highPrice: quote.h,
-          symbol: this.symbolLookup.symbol,
-        };
-      });
+    this.stockService.getQuoteOfSymbol(this.stock.symbol).subscribe((quote) => {
+      this.stock = {
+        ...this.stock,
+        ...quote,
+      };
+    });
   }
 
   handleRemoveClick(): void {

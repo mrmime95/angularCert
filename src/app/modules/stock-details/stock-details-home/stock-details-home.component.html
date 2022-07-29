@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="title flex space-between">
+        <h3>{{stockName || symbol}}</h3>
+    </div>
+        <div class="flex space-between"  *ngIf='isLoading; else loaded'>
+            Loading stuff...
+        </div>
+
+        <ng-template #loaded>
+            <div class="flex space-between">
+                <app-stock-change *ngFor="let change of changes" [change]="change"></app-stock-change>
+            </div>
+        </ng-template>
+        
+</div>
+<a routerLink="../..">
+    <button>{{"< Back to list of stocks"}}</button>
+</a>

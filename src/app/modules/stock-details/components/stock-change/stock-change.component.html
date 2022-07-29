@@ -1,0 +1,18 @@
+<div class="flex">
+    <div class="content">
+        <h5>{{change.month | month }}</h5>
+        <div *ngIf="change.change && change.mspr; else therIsNoData">
+            <p>Change: {{change.change | numberSign}}</p>
+            <p>MSPR: {{change.mspr | numberSign}}</p>
+        </div>
+
+        <ng-template #therIsNoData>
+            <div >
+                No data found
+            </div>
+        </ng-template>
+    </div>
+    <div class="flex center">
+        <app-indicator [value]="change.change"></app-indicator>
+    </div>
+</div>

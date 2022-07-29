@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'sentiment/:symbol',
     loadChildren: () =>
-      import('./stock-details/stock-details.module').then(
+      import('./modules/stock-details/stock-details.module').then(
         (m) => m.StockDetailsModule
       ),
   },

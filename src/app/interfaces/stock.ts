@@ -1,6 +1,6 @@
 export default interface Stock {
   name: string;
-  todayChange: string | number;
+  todayChange: number;
   currentPrice: number;
   openingPrice: number;
   highPrice: number;
