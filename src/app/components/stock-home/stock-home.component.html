@@ -1,12 +1,16 @@
 <h1>Stock Tracker</h1>
 <div class="container">
-    <form [formGroup]="stockFinderForm">
-    <label for="symbol">Enter the symbol of the stock to track (i.e. AAPL, TSLA, GOOGL)</label>
-    <input id="symbol" type="text" formControlName="symbol"/>
-    {{stockFinderForm.get("symbol")?.errors | json}}
-
-    <input type="submit" value="Track Stock" (click)="trackStock()"/>
+    <form [formGroup]="stockFinderForm" (ngSubmit)="trackStock()">
+        <div>
+            <label for="symbol">Enter the symbol of the stock to track (i.e. AAPL, TSLA, GOOGL)</label>
+        </div>
+        <input id="symbol" type="text" formControlName="symbol"/>
+        
+        <input type="submit"  value="Track Stock" [disabled]="stockFinderForm.invalid || stockFinderForm.pending"/>
+        <p *ngIf="stockFinderForm.get('symbol')?.errors !== null">
+            {{stockFinderForm.get("symbol")?.errors | json}}
+        </p>
     </form>
 </div>
 
-<app-stock *ngFor="let stock of stocks" [stock]="stock"></app-stock>
+<app-stock *ngFor="let trackedStock of trackedStocks; index as i" [symbolLookup]="trackedStock" (remove)="removeStock(i)"></app-stock>

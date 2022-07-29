@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import QuoteResponse from '../interfaces/quote-response';
 import SymbolLookupResponse from '../interfaces/symbol-lookup-response';
 
 @Injectable({
@@ -15,19 +16,29 @@ import SymbolLookupResponse from '../interfaces/symbol-lookup-response';
 export class StockService {
   constructor(private http: HttpClient) {}
 
-  getStockBySymbol(symbol: string) {
+  getStocksBySymbol(symbol: string) {
     return this.http.get<SymbolLookupResponse>(
       `https://finnhub.io/api/v1/search?q=${symbol}&token=bu4f8kn48v6uehqi3cqg`
     );
   }
 
+  getFirstStockBySymbol(symbol: string) {
+    return this.getStocksBySymbol(symbol).pipe(
+      map((resp: SymbolLookupResponse) => resp.result[0])
+    );
+  }
+
   isValidSymbol(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.getStockBySymbol(control.value).pipe(
-        map((response) =>
-          response.count > 0 ? response.result[0] : { invalidSymbol: true }
-        )
+      return this.getStocksBySymbol(control.value).pipe(
+        map((response) => (response.count > 0 ? null : { invalidSymbol: true }))
       );
     };
+  }
+
+  getQuoteOfSymbol(symbol: string) {
+    return this.http.get<QuoteResponse>(
+      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu4f8kn48v6uehqi3cqg`
+    );
   }
 }

@@ -4,12 +4,5 @@ export default interface Stock {
   currentPrice: number;
   openingPrice: number;
   highPrice: number;
+  symbol: string;
 }
-
-export const defaultStock: Stock = {
-  name: '',
-  todayChange: 0,
-  currentPrice: 0,
-  openingPrice: 0,
-  highPrice: 0,
-};
