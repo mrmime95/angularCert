@@ -8,6 +8,7 @@ import { StockHomeComponent } from './components/stock-home/stock-home.component
 import { StockComponent } from './components/stock/stock.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IndicatorComponent } from './components/indicator/indicator.component';
+import { GlobalModule } from './global/global.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { IndicatorComponent } from './components/indicator/indicator.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    GlobalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

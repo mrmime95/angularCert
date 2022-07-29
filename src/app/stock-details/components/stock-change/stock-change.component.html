@@ -1,9 +1,9 @@
 <div class="flex space-between">
     <div>
-        <h5>MONTH</h5>
+        <h5>{{change.month | month }}</h5>
         <div class="w50">
-            <p>Change: -150</p>
-            <p>MSPR: 12.45</p>
+            <p>Change: {{change.change | numberSign}}</p>
+            <p>MSPR: {{change.mspr | numberSign}}</p>
         </div>
     </div>
     <div class="flex center w50">

@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import ChangesResponse from '../interfaces/changes-response';
 import QuoteResponse from '../interfaces/quote-response';
 import SymbolLookupResponse from '../interfaces/symbol-lookup-response';
 
@@ -40,5 +41,18 @@ export class StockService {
     return this.http.get<QuoteResponse>(
       `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu4f8kn48v6uehqi3cqg`
     );
+  }
+
+  getLastYearChangesOfSymbol(symbol: string) {
+    const d = new Date();
+    const fromDate = `${d.getFullYear() - 1}-01-01`;
+    const toDate = `${d.getFullYear()}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${d.getDate()}`;
+    return this.http
+      .get<ChangesResponse>(
+        `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${fromDate}&to=${toDate}&token=bu4f8kn48v6uehqi3cqg`
+      )
+      .pipe(map((result) => result.data));
   }
 }

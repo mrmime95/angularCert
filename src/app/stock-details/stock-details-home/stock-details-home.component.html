@@ -1,11 +1,9 @@
 <div class="container">
     <div class="title flex space-between">
-        <h3>{{id}}</h3>
+        <h3>{{symbol}}</h3>
     </div>
     <div class="flex space-between">
-        <app-stock-change></app-stock-change>
-        <app-stock-change></app-stock-change>
-        <app-stock-change></app-stock-change>
+        <app-stock-change *ngFor="let change of changes" [change]="change"></app-stock-change>
     </div>
 </div>
 <a routerLink="../..">

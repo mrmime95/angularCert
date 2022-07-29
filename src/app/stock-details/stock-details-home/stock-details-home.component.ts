@@ -1,5 +1,7 @@
+import { StockService } from './../../services/stock.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import Changes from 'src/app/interfaces/changes';
 
 @Component({
   selector: 'app-stock-details-home',
@@ -7,11 +9,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./stock-details-home.component.css'],
 })
 export class StockDetailsHomeComponent implements OnInit {
-  @Input() id!: string;
+  @Input() symbol!: string;
+  @Input() changes: Changes[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private stocksService: StockService
+  ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
+    this.symbol = this.route.snapshot.paramMap.get('symbol') || '';
+
+    this.stocksService
+      .getLastYearChangesOfSymbol(this.symbol)
+      .subscribe((changes) => {
+        this.changes = changes.slice(-3);
+      });
   }
 }

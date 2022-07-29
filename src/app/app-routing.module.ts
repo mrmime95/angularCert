@@ -8,7 +8,7 @@ const routes: Routes = [
     component: StockHomeComponent,
   },
   {
-    path: 'sentiment/:id',
+    path: 'sentiment/:symbol',
     loadChildren: () =>
       import('./stock-details/stock-details.module').then(
         (m) => m.StockDetailsModule
