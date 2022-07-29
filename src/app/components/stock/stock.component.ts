@@ -12,15 +12,24 @@ export class StockComponent implements OnInit {
 
   @Output() remove = new EventEmitter();
 
+  error?: string;
+
   constructor(private stockService: StockService) {}
 
   ngOnInit(): void {
-    this.stockService.getQuoteOfSymbol(this.stock.symbol).subscribe((quote) => {
-      this.stock = {
-        ...this.stock,
-        ...quote,
-      };
-    });
+    this.stockService.getQuoteOfSymbol(this.stock.symbol).subscribe(
+      (quote) => {
+        this.stock = {
+          ...this.stock,
+          ...quote,
+        };
+
+        this.error = '';
+      },
+      (err) => {
+        this.error = err.error.error;
+      }
+    );
   }
 
   handleRemoveClick(): void {

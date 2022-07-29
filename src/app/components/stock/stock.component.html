@@ -5,7 +5,13 @@
        </div>
     </div>
     <div class="flex space-between">
-        <div class="flex space-between w50">
+            
+        <div *ngIf="error; else thereIsData">
+                {{error}}
+        </div>
+
+        <ng-template #thereIsData>
+        <div class="flex space-between w50" >
             <div class="w50">
                 <p>Change today: {{stock.todayChange > 0 ? "+" : ""}}{{stock.todayChange | percent}}</p>
                 <p>Current price: {{stock.currentPrice | currency}}</p>
@@ -15,6 +21,8 @@
                 <p>High price: {{stock.highPrice | currency}}</p>
             </div>
         </div>
+    </ng-template>
+        
         <div class="flex center w50">
             <app-indicator [value]="stock.todayChange"></app-indicator>
         </div>

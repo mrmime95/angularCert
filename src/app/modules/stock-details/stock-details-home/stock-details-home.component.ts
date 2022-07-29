@@ -26,10 +26,31 @@ export class StockDetailsHomeComponent implements OnInit {
       this.stockName = `${stock.description} (${stock.symbol})`;
     });
 
+    // this.stocksService
+    //   .getLastYearChangesOfSymbol(this.symbol)
+    //   .subscribe((changes) => {
+    //     this.changes = changes.slice(-3);
+    //     this.isLoading = false;
+    //   });
+
     this.stocksService
-      .getLastYearChangesOfSymbol(this.symbol)
+      .getLast3MonthsChangesOfSymbol(this.symbol)
       .subscribe((changes) => {
-        this.changes = changes.slice(-3);
+        const d = new Date();
+        const month_1 = d.getMonth() + 1 - 3;
+        const month_2 = d.getMonth() + 1 - 2;
+        const month_3 = d.getMonth() + 1 - 1;
+
+        const changeOfMonth_1 = changes.find(
+          (change) => change.month === month_1
+        ) || { month: month_1 };
+        const changeOfMonth_2 = changes.find(
+          (change) => change.month === month_2
+        ) || { month: month_2 };
+        const changeOfMonth_3 = changes.find(
+          (change) => change.month === month_3
+        ) || { month: month_3 };
+        this.changes = [changeOfMonth_1, changeOfMonth_2, changeOfMonth_3];
         this.isLoading = false;
       });
   }

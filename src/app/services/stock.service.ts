@@ -44,10 +44,10 @@ export class StockService {
       )
       .pipe(
         map((quote) => ({
-          todayChange: quote.dp,
-          currentPrice: quote.c,
-          openingPrice: quote.o,
-          highPrice: quote.h,
+          todayChange: quote.dp || 0,
+          currentPrice: quote.c || 0,
+          openingPrice: quote.o || 0,
+          highPrice: quote.h || 0,
         }))
       );
   }
@@ -55,6 +55,21 @@ export class StockService {
   getLastYearChangesOfSymbol(symbol: string) {
     const d = new Date();
     const fromDate = `${d.getFullYear() - 1}-01-01`;
+    const toDate = `${d.getFullYear()}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${d.getDate()}`;
+    return this.http
+      .get<ChangesResponse>(
+        `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${fromDate}&to=${toDate}&token=bu4f8kn48v6uehqi3cqg`
+      )
+      .pipe(map((result) => result.data));
+  }
+
+  getLast3MonthsChangesOfSymbol(symbol: string) {
+    const d = new Date();
+    const fromDate = `${d.getFullYear()}-${(d.getMonth() + 1 - 3)
+      .toString()
+      .padStart(2, '0')}-01`;
     const toDate = `${d.getFullYear()}-${(d.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${d.getDate()}`;
