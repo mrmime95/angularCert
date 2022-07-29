@@ -7,7 +7,7 @@
     <div class="flex space-between">
         <div class="flex space-between w50">
             <div class="w50">
-                <p>Change today: {{stock.todayChange | percent}}</p>
+                <p>Change today: {{stock.todayChange > 0 ? "+" : ""}}{{stock.todayChange | percent}}</p>
                 <p>Current price: {{stock.currentPrice | currency}}</p>
             </div>
             <div class="w50">

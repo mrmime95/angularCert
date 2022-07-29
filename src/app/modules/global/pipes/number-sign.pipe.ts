@@ -4,9 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'numberSign',
 })
 export class NumberSignPipe implements PipeTransform {
-  transform(value: number): unknown {
-    if (!value) {
-      return '';
+  transform(value: number): string | number {
+    if (value === 0) {
+      return value;
     }
 
     return `${value > 0 ? '+' : ''}${value}`;
