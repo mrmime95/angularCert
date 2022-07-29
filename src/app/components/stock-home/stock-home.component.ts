@@ -36,10 +36,6 @@ export class StockHomeComponent implements OnInit {
       .subscribe((stockToTrack) => {
         this.trackedStocks.push({
           name: `${stockToTrack.description} (${stockToTrack.symbol})`,
-          todayChange: 0,
-          currentPrice: 0,
-          openingPrice: 0,
-          highPrice: 0,
           symbol: stockToTrack.symbol,
         });
         localStorage.setItem(

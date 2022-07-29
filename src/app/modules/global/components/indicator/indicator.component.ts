@@ -19,6 +19,9 @@ export class IndicatorComponent implements OnInit {
     if (this.value > 0) {
       return 'up';
     }
-    return 'down';
+    if (this.value < 0) {
+      return 'down';
+    }
+    return 'none';
   }
 }

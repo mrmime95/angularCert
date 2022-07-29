@@ -13,10 +13,12 @@ export class StockComponent implements OnInit {
   @Output() remove = new EventEmitter();
 
   error?: string;
+  isLoading: boolean = false;
 
   constructor(private stockService: StockService) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.stockService.getQuoteOfSymbol(this.stock.symbol).subscribe(
       (quote) => {
         this.stock = {
@@ -25,8 +27,10 @@ export class StockComponent implements OnInit {
         };
 
         this.error = '';
+        this.isLoading = false;
       },
       (err) => {
+        this.isLoading = false;
         this.error = err.error.error;
       }
     );
